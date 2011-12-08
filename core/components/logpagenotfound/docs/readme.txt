@@ -1,6 +1,7 @@
---------------------
-Snippets: LogPageNotFound
---------------------
+-------------------------------
+Plugins: LogPageNotFound
+Snippets: PageNotFoundLogReport
+-------------------------------
 Author: Bob Ray <http://bobsguides.com>
 
 Official Documentation: http://bobsguides.com/logpagenotfound-tutorial.html

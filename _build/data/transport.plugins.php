@@ -41,7 +41,7 @@ $plugins[1]= $modx->newObject('modplugin');
 $plugins[1]->fromArray(array(
     'id' => 1,
     'name' => 'LogPageNotFound',
-    'description' => 'LogPageNotFound plugin stops bad bots from hammering your site',
+    'description' => 'LogPageNotFound plugin -- logs page-not-found requests',
     'plugincode' => getPluginContent($sources['source_core'].'/elements/plugins/logpagenotfound.plugin.php'),
 ),'',true,true);
 $properties = include $sources['data'].'properties/properties.logpagenotfound.plugin.php';
