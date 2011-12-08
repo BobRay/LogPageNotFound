@@ -1,0 +1,83 @@
+<h3>Overview</h3>
+<p>LogPageNotFound logs all requests that result in a 404 (page not found) error. You will almost certainly find that there are links out there for pages you've changed the alias of and possibly links at your own site that no longer work. Using the information in the log, you can create either weblinks on the site or redirect rules in your .htaccess file to send visitors to the right place.</p>
+
+<p>Here are some examples of rewrite rules for redirecting MODX site page requests in .htaccess </p>
+
+<pre><fixedpre>
+    RewriteCond %{QUERY_STRING}  ^$
+    RewriteRule ^MODX-revolution\.html$ /modx-revolution.html? [R=301,NE,L]
+    RewriteRule ^Modx\.html$ /modx.html? [R=301,NE,L]
+    RewriteRule ^MODx\.html$ /modx.html? [R=301,NE,L]
+    RewriteRule ^modx-faq\.html$ /modx-faqs.html? [R=301,NE,L]
+    RewriteRule ^modx-newbie-\.html$ /modx-newbie-faq.html? [R=301,NE,L]
+    RewriteRule ^snippet-tutorials\.html$ /package-tutorials.html? [R=301,NE,L]
+    RewriteRule ^spform-tutorial\.html$ /spform-snippet-tutorial.html? [R=301,NE,L]
+</fixedpre></pre>
+
+<p>In the above examples, the string on the left is rewritten to the string on the right. Notice that in the string on the left, any dots or slashes must be escaped with a preceding backslash. This is not necessary for the string on the right.</p>
+
+<p>*Always* back up your .htaccess file before making any changes! If there is an error in the .htaccess file, all visitors to your site may get a Server 500 error.</p>
+
+<p>When examining the log, you'll also see evildoers looking for a variety of security holes trying to access files and directories that never existed. Once you know what they're looking for, you can block them in .htaccess (see below).</p>
+
+<p>Note that if you have an Adsense site, every page-not-found request will be followed by one or more visits from the GoogleBot looking for the same URL. You'll also see the GoogleBot failing to find the unpublished report pages when you access them.</p>
+
+<p>You can prevent some of that with these lines in your robots.txt file. Adjust the file suffix as necessary based on the configuration of your site.</p>
+
+<pre>
+    User-agent: Mediapartners-Google*
+    Disallow: page-not-found-log-report.html
+</pre>
+        
+<h3>Installing LogPageNotFound</h3>
+
+<p>Go to System | Package Management and click on the &quot;Download Extras&quot; button. Put &quot;LogPageNotFound&quot; in the search box and press &quot;Enter&quot;. Click on the &quot;Download&quot; button next to LogPageNotFound on the right side of the grid. Wait until the &quot;Download&quot; button changes to &quot;Downloaded&quot; and click on the &quot;Finish&quot; button.</p>
+
+<p>The LogPageNotFound package should appear in the Package Manager grid. Clock on the &quot;Install&quot; button and respond to the forms presented. That's it. Once the install finishes, logging will begin immediately. The LogPageNotFound plugin will be installed and active, and you'll get the snippet/resource pairs that will let you view the log created by the plugin.</p>
+
+<h3>The Log</h3>
+<p>When a page is not found, an entry is written to the pagenotfound.log file (inside the logs/ directory below the MODX core directory). The log entry will include the path to the requested file, the time, the IP of the visitor, the Host of the visitor, The user name and the HTTP referer (if any).</p>
+        
+<p>Remember that there will be an entry for every page-not-found request, so there may be a lot of duplicates. The log is limited to 300 entries by default. You can set a different limit with the &amp;log_max_lines property. New entries will be added at the top and old ones will scroll off the bottom. You can also edit the file on the Files tab in the Manager (core/logs/pagenotfound.log), delete the contents, and save the empty file to start a new log. </p>
+
+<p>If you have the Reflect Block plugin enabled, you won't see the various reflect requests in the Page Not Found log. If it's disabled or not installed, you'll see plenty of them if your site contains the word &quot;MODX&quot;.</p>
+
+<h3>Properties</h3>
+<p>At present, the only settable property for the LogPageNotFound plugin is &amp;log_max_lines, which sets the maximum number of entries in the log. The default value is 300.</p>
+        
+<p>The PageNotFoundLogReport snippet has two properties: &amp;table_width (to set the width of the table) and &amp;cell_width (to set the width of each cell). Feel free to adjust them to meet your needs. Set them in the snippet tag on the Page Not Found Log Report page.</p>
+
+<h3>Reports</h3>
+<p>The report snippet and the resource to execute it are included in the package. The Page Not Found Log Report resource is unpublished and hidden from menus by default, but you can still view the log by previewing that resource from the Manager when you are logged in as a Super User.</p>
+
+<h3>Caution</h3>        
+<p>If you see serious repeat offenders in the log, you can block them by IP with code like this in your .htaccess file (using their actual IPs):</p>
+<pre>
+    order allow,deny
+    deny from 127.0.0.1
+    deny from 127.0.0.2
+    deny from 127.0.0.3
+    allow from all
+</pre>
+<p>Blocking users in the .htaccess file is extremely fast and it stops the users dead before they even reach the site. It's not all that practical, however, since people can spoof IPs, there are zillions of evildoers out there, and the request can be from an IP that might later be assigned to a legitimate user. Be sure to note the host before adding an IP block. You don't want to block the GoogleBot or yourself. The User Agent can be helpful here, but many evildoers will fake the User Agent and pretend to be the GoogleBot.</p>
+        
+<p>In many ways, it's safer to block users with redirect rules based on what they are looking for. Here are some examples:</p>
+
+<pre><fixedpre>
+RewriteCond %{REQUEST_URI} reflect [NC,OR]
+RewriteCond %{QUERY_STRING} reflect [NC,OR]
+RewriteCond %{REQUEST_URI} password_forgotten [NC,OR]
+RewriteCond %{REQUEST_URI} mysql [NC,OR]
+RewriteCond %{REQUEST_URI} sqlpatch [NC,OR]
+RewriteCond %{REQUEST_URI} checkout [NC,OR]
+RewriteCond %{REQUEST_URI} customer [NC,OR]
+RewriteCond %{REQUEST_URI} admin [NC]
+RewriteRule .* - [F,L]
+</fixedpre></pre>
+
+<p>Include the &quot;OR&quot; directive on every condition but the last, and make sure that the strings you specify are not contained in any alias on your site</p>
+
+<p>As we said above, *always* back up your .htaccess file before making any changes!</p>
+
+
+<p>&nbsp;</p>
