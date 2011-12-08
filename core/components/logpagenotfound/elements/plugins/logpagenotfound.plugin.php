@@ -36,9 +36,9 @@ if (!function_exists("get_host")) {
     }
 }
 if (!function_exists("logLine")) {
-    function logLine($bLogLine, $maxLines)
+    function logLine($bLogLine, $maxLines, $file)
     {
-        $file = MODX_CORE_PATH . 'logs/pagenotfound.log';
+
         if ($bLogLine) {
 
             $log = file($file);
@@ -78,8 +78,8 @@ $data['referer'] = empty($_SERVER['HTTP_REFERER']) ? '(empty)' : $_SERVER['HTTP_
 $msg = implode('`', $data);
 
 $maxLines  = $modx->getOption('log_max_lines',$scriptProperties, 300);
-
-logLine($msg . "\n", $maxLines);
+$file = MODX_CORE_PATH . 'logs/pagenotfound.log';
+logLine($msg . "\n", $maxLines, $file);
 
 ignore_user_abort($oldSetting);
 
