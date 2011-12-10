@@ -2,6 +2,11 @@ Changelog for LogPageNotFound
 
 LogPageNotFound 1.0.1
 ---------------------
+Minor bug fixes
+Minor code improvements
+
+LogPageNotFound 1.0.1
+---------------------
 Improved compatibility with ReflectBlock
 
 LogPageNotFound 1.0.0
