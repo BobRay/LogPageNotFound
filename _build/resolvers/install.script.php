@@ -142,8 +142,11 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
 
         /* remove log file */
 
-        unlink($logFile);
-        $modx->log(xPDO::LOG_LEVEL_INFO,'Removed log file');
+        if (unlink($logFile)) {
+            $modx->log(xPDO::LOG_LEVEL_INFO, 'Removed log file');
+        } else {
+            $modx->log(xPDO::LOG_LEVEL_INFO, 'Failed to remove log file');
+        }
 
         $success = true;
         break;
