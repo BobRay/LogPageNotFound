@@ -39,7 +39,7 @@ $snippets = array();
 
 $snippets[1]= $modx->newObject('modSnippet');
 $snippets[1]->fromArray(array(
-    'id' => 2,
+    'id' => 1,
     'name' => 'PageNotFoundLogReport',
     'description' => 'PageNotFoundLogReport snippet for LogPageNotFound.',
     'snippet' => getSnippetContent($sources['source_core'].'/elements/snippets/pagenotfoundlogreport.snippet.php'),
