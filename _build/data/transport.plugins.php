@@ -46,8 +46,6 @@ $plugins[1]->fromArray(array(
 ),'',true,true);
 $properties = include $sources['data'].'properties/properties.logpagenotfound.plugin.php';
 $plugins[1]->setProperties($properties);
-unset($properties);
-
 
 unset($properties);
 
