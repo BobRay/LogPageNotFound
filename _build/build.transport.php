@@ -28,6 +28,7 @@
  * @subpackage build
  */
 
+/* @var $modx modX */
 /* Set package info be sure to set all of these */
 define('PKG_NAME','LogPageNotFound');
 define('PKG_NAME_LOWER','logpagenotfound');
@@ -94,13 +95,14 @@ $modx->initialize('mgr');
 $modx->setLogLevel(xPDO::LOG_LEVEL_INFO);
 $modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
 
+$modx->setLogLevel(MODX::LOG_LEVEL_ERROR);
 /* load builder */
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
 $builder->createPackage(PKG_NAME_LOWER, PKG_VERSION, PKG_RELEASE);
 $builder->registerNamespace(PKG_NAME_LOWER,false,true,'{core_path}components/'.PKG_NAME_LOWER.'/');
 
-
+$modx->setLogLevel(MODX::LOG_LEVEL_INFO);
 /* create category  The category is required and will automatically
  * have the name of your package
  */
@@ -121,10 +123,12 @@ if ($hasSnippets) {
 
 if ($hasPlugins) {
     $modx->log(modX::LOG_LEVEL_INFO,'Adding in Plugins.');
+    $modx->setLogLevel(MODX::LOG_LEVEL_ERROR);
     $plugins = include $sources['data'] . 'transport.plugins.php';
      if (is_array($plugins)) {
         $category->addMany($plugins);
      }
+    $modx->setLogLevel(MODX::LOG_LEVEL_INFO);
 }
 
 /* Create Category attributes array dynamically
