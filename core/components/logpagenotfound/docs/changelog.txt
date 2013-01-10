@@ -1,5 +1,9 @@
 Changelog for LogPageNotFound
 
+LogPageNotFound 1.0.3
+---------------------
+Added button to clear log
+
 LogPageNotFound 1.0.1
 ---------------------
 Minor bug fixes
