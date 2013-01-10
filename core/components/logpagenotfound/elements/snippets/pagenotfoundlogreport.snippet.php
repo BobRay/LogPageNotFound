@@ -29,6 +29,10 @@
 
 $file = MODX_CORE_PATH . '/logs/pagenotfound.log';
 $cellWidth = empty($scriptProperties['cell_width'])? 30 : $scriptProperties['cell_width'];
+$file = MODX_CORE_PATH . '/logs/pagenotfound.log';
+if (isset($_POST['clearlog'])) {
+    file_put_contents($file, "");
+}
 $tableWidth = empty($scriptProperties['table_width'])? '80%' : $scriptProperties['table_width'];
 $fp = fopen ($file, 'r');
 $output = '';

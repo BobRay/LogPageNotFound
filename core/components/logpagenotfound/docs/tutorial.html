@@ -4,14 +4,14 @@
 <p>Here are some examples of rewrite rules for redirecting MODX site page requests in .htaccess </p>
 
 <pre><fixedpre>
-    RewriteCond %{QUERY_STRING}  ^$
-    RewriteRule ^MODX-revolution\.html$ /modx-revolution.html? [R=301,NE,L]
-    RewriteRule ^Modx\.html$ /modx.html? [R=301,NE,L]
-    RewriteRule ^MODx\.html$ /modx.html? [R=301,NE,L]
-    RewriteRule ^modx-faq\.html$ /modx-faqs.html? [R=301,NE,L]
-    RewriteRule ^modx-newbie-\.html$ /modx-newbie-faq.html? [R=301,NE,L]
-    RewriteRule ^snippet-tutorials\.html$ /package-tutorials.html? [R=301,NE,L]
-    RewriteRule ^spform-tutorial\.html$ /spform-snippet-tutorial.html? [R=301,NE,L]
+RewriteCond %{QUERY_STRING}  ^$
+RewriteRule ^MODX-revolution\.html$ /modx-revolution.html? [R=301,NE,L]
+RewriteRule ^Modx\.html$ /modx.html? [R=301,NE,L]
+RewriteRule ^MODx\.html$ /modx.html? [R=301,NE,L]
+RewriteRule ^modx-faq\.html$ /modx-faqs.html? [R=301,NE,L]
+RewriteRule ^modx-newbie-\.html$ /modx-newbie-faq.html? [R=301,NE,L]
+RewriteRule ^snippet-tutorials\.html$ /package-tutorials.html? [R=301,NE,L]
+RewriteRule ^spform-tutorial\.html$ /spform-snippet-tutorial.html? [R=301,NE,L]
 </fixedpre></pre>
 
 <p>In the above examples, the string on the left is rewritten to the string on the right. Notice that in the string on the left, any dots or slashes must be escaped with a preceding backslash. This is not necessary for the string on the right.</p>
@@ -24,10 +24,10 @@
 
 <p>You can prevent some of that with these lines in your robots.txt file. Adjust the file suffix as necessary based on the configuration of your site.</p>
 
-<pre>
-    User-agent: Mediapartners-Google*
-    Disallow: page-not-found-log-report.html
-</pre>
+<pre><fixedpre>
+User-agent: Mediapartners-Google*
+Disallow: page-not-found-log-report.html
+</fixedpre></pre>
         
 <h3>Installing LogPageNotFound</h3>
 
@@ -38,27 +38,29 @@
 <h3>The Log</h3>
 <p>When a page is not found, an entry is written to the pagenotfound.log file (inside the logs/ directory below the MODX core directory). The log entry will include the path to the requested file, the time, the IP of the visitor, the Host of the visitor, The user name and the HTTP referer (if any).</p>
         
-<p>Remember that there will be an entry for every page-not-found request, so there may be a lot of duplicates. The log is limited to 300 entries by default. You can set a different limit with the &amp;log_max_lines property. New entries will be added at the top and old ones will scroll off the bottom. You can also edit the file on the Files tab in the Manager (core/logs/pagenotfound.log), delete the contents, and save the empty file to start a new log. </p>
+<p>Remember that there will be an entry for every page-not-found request, so there may be a lot of duplicates. The log is limited to 300 entries by default. You can set a different limit with the <fixedpre>&log_max_lines</fixedpre> property. New entries will be added at the top and old ones will scroll off the bottom. You can also edit the file on the Files tab in the Manager (core/logs/pagenotfound.log), delete the contents, and save the empty file to start a new log. </p>
 
 <p>If you have the Reflect Block plugin enabled, you won't see the various reflect requests in the Page Not Found log. If it's disabled or not installed, you'll see plenty of them if your site contains the word &quot;MODX&quot;.</p>
 
 <h3>Properties</h3>
-<p>At present, the only settable property for the LogPageNotFound plugin is &amp;log_max_lines, which sets the maximum number of entries in the log. The default value is 300.</p>
+<p>At present, the only settable property for the LogPageNotFound plugin is <fixedpre>&log_max_lines</fixedpre>, which sets the maximum number of entries in the log. The default value is 300.</p>
         
-<p>The PageNotFoundLogReport snippet has two properties: &amp;table_width (to set the width of the table) and &amp;cell_width (to set the width of each cell). Feel free to adjust them to meet your needs. Set them in the snippet tag on the Page Not Found Log Report page.</p>
+<p>The PageNotFoundLogReport snippet has two properties: <fixedpre>&table_width</fixedpre> (to set the width of the table) and <fixedpre>&cell_width</fixedpre> (to set the width of each cell). Feel free to adjust them to meet your needs. Set them in the snippet tag on the Page Not Found Log Report page.</p>
 
 <h3>Reports</h3>
 <p>The report snippet and the resource to execute it are included in the package. The Page Not Found Log Report resource is unpublished and hidden from menus by default, but you can still view the log by previewing that resource from the Manager when you are logged in as a Super User.</p>
 
 <h3>Caution</h3>        
 <p>If you see serious repeat offenders in the log, you can block them by IP with code like this in your .htaccess file (using their actual IPs):</p>
-<pre>
-    order allow,deny
-    deny from 127.0.0.1
-    deny from 127.0.0.2
-    deny from 127.0.0.3
-    allow from all
-</pre>
+
+<pre><fixedpre>
+order allow,deny
+deny from 127.0.0.1
+deny from 127.0.0.2
+deny from 127.0.0.3
+allow from all
+</fixedpre></pre>
+
 <p>Blocking users in the .htaccess file is extremely fast and it stops the users dead before they even reach the site. It's not all that practical, however, since people can spoof IPs, there are zillions of evildoers out there, and the request can be from an IP that might later be assigned to a legitimate user. Be sure to note the host before adding an IP block. You don't want to block the GoogleBot or yourself. The User Agent can be helpful here, but many evildoers will fake the User Agent and pretend to be the GoogleBot.</p>
         
 <p>In many ways, it's safer to block users with redirect rules based on what they are looking for. Here are some examples:</p>
