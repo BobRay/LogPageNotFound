@@ -1,7 +1,7 @@
 <?php
 /**
  * PageNotFoundLogReport
- * Copyright 2011 Bob Ray
+ * Copyright 2011-2013 Bob Ray
  *
  * PageNotFoundLogReport is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -24,12 +24,11 @@
  *
  * /
 
-/* Modified: November 3, 2011 */
+/* Modified: January, 2013 */
 
 
 $file = MODX_CORE_PATH . '/logs/pagenotfound.log';
 $cellWidth = empty($scriptProperties['cell_width'])? 30 : $scriptProperties['cell_width'];
-$file = MODX_CORE_PATH . '/logs/pagenotfound.log';
 if (isset($_POST['clearlog'])) {
     file_put_contents($file, "");
 }
