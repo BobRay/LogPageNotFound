@@ -38,7 +38,7 @@ Disallow: page-not-found-log-report.html
 <h3>The Log</h3>
 <p>When a page is not found, an entry is written to the pagenotfound.log file (inside the logs/ directory below the MODX core directory). The log entry will include the path to the requested file, the time, the IP of the visitor, the Host of the visitor, The user name and the HTTP referer (if any).</p>
         
-<p>Remember that there will be an entry for every page-not-found request, so there may be a lot of duplicates. The log is limited to 300 entries by default. You can set a different limit with the <fixedpre>&log_max_lines</fixedpre> property. New entries will be added at the top and old ones will scroll off the bottom. You can also edit the file on the Files tab in the Manager (core/logs/pagenotfound.log), delete the contents, and save the empty file to start a new log. </p>
+<p>Remember that there will be an entry for every page-not-found request, so there may be a lot of duplicates. The log is limited to 300 entries by default. You can set a different limit with the <fixedpre>&log_max_lines</fixedpre> property. New entries will be added at the top and old ones will scroll off the bottom. As of Version 1.0.3, there is a button to clear the log (thanks to Susan Ottwell). </p>
 
 <p>If you have the Reflect Block plugin enabled, you won't see the various reflect requests in the Page Not Found log. If it's disabled or not installed, you'll see plenty of them if your site contains the word &quot;MODX&quot;.</p>
 
