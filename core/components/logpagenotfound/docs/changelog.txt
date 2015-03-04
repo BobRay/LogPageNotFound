@@ -1,5 +1,9 @@
 Changelog for LogPageNotFound
 
+LogPageNotFound 1.0.4
+---------------------
+Fixed potential XSS vulnerability
+
 LogPageNotFound 1.0.3
 ---------------------
 Added button to clear log (Thanks to Susan Ottwell)

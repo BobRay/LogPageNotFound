@@ -1,7 +1,7 @@
 <?php
 /**
  * PageNotFoundLogReport
- * Copyright 2011-2013 Bob Ray
+ * Copyright 2011-2015 Bob Ray
  *
  * PageNotFoundLogReport is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -53,6 +53,9 @@ if ($fp) {
         $output .= "\n   <tr>";
         foreach($lineArray as $item) {
             $item = urldecode($item);
+            $item = strip_tags($item);
+            $item = htmlspecialchars($item, ENT_QUOTES, 'UTF-8');
+            $item = str_replace('&amp;', '&', $item);
             $output .= "\n      " . '<td style="word-break:break-all;" width="' . $cellWidth . '">' . $item . '</td>';
 
         }

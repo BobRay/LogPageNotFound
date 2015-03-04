@@ -2,7 +2,7 @@
 /**
  * LogPageNotFound Plugin
  *
- * Copyright 2011-2013 Bob Ray <http://bobsguides.com>
+ * Copyright 2011-2015 Bob Ray <http://bobsguides.com>
  *
  * LogPageNotFound is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -40,6 +40,8 @@ if (!function_exists("logLine")) {
     {
 
         if ($bLogLine) {
+            $bLogLine = strip_tags($bLogLine);
+            $bLogLine = htmlspecialchars($bLogLine, ENT_QUOTES, 'UTF-8');
 
             $log = file($file);
             if ($fp = fopen($file, 'a')) { // tiny danger of 2 threads interfering; live with it
