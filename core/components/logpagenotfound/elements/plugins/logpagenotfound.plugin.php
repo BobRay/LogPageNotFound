@@ -63,6 +63,8 @@ if (!function_exists("logLine")) {
     }
 }
 /* Don't execute in Manager */
+/** @var $modx modX */
+/** @var $scriptProperties array */
 if ($modx->context->get('key') == 'mgr') {
     return '';
 }
@@ -80,7 +82,8 @@ $data['referer'] = empty($_SERVER['HTTP_REFERER']) ? '(empty)' : $_SERVER['HTTP_
 $msg = implode('`', $data);
 
 $maxLines  = $modx->getOption('log_max_lines',$scriptProperties, 300);
-$file = MODX_CORE_PATH . 'logs/pagenotfound.log';
+$file = $modx->getOption('log_path', $scriptProperties, MODX_CORE_PATH . 'logs/pagenotfound.log', true );
+
 logLine($msg . "\n", $maxLines, $file);
 
 ignore_user_abort($oldSetting);
