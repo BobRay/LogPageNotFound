@@ -34,6 +34,10 @@
  * use $object->xpdo
  */
 
+/** @var $modx modX */
+/** @var  $object object */
+/** @var  $options array */
+
 $modx =& $object->xpdo;
 
 /* Remember that the files in the _build directory are not available
@@ -132,6 +136,25 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
         /* put any upgrade tasks (if any) here such as removing
            obsolete files, settings, elements, resources, etc.
         */
+
+        $doc = $modx->getObject('modResource', array('alias' => 'page-not-found-log-report'));
+        if ($doc) {
+            /** @var $doc modResource */
+            $template = $doc->get('template');
+            if (empty($template)) {
+                $templateObj = $modx->getObject('modTemplate', array('templatename' => 'BaseTemplate'));
+                if ($templateObj) {
+                    $tId = $templateObj->get('id');
+                } else {
+                    $tId = $modx->getOption('default_template', null);
+                }
+                $doc->set('template', $tId);
+                $doc->save();
+
+            }
+        } else {
+            $modx->log(xPDO::LOG_LEVEL_INFO, 'Could not find the Log Report resource. Make sure it has a non-empty template');
+        }
 
         $success = true;
         break;

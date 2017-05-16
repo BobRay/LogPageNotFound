@@ -1,5 +1,9 @@
 Changelog for LogPageNotFound
 
+LogPageNotFound 1.0.5
+---------------------
+Fix bug with report page template in later versions of MODX
+
 LogPageNotFound 1.0.4
 ---------------------
 Fixed potential XSS vulnerability

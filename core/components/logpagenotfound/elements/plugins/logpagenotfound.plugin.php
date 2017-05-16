@@ -26,7 +26,7 @@ if (!function_exists("get_host")) {
     function get_host($ip)
     {
         $ptr = implode(".", array_reverse(explode(".", $ip))) . ".in-addr.arpa";
-        $host = dns_get_record($ptr, DNS_PTR);
+        $host = @@dns_get_record($ptr, DNS_PTR);
         if ($host == null) {
             return $ip;
         }
