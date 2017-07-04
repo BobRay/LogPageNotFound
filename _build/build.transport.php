@@ -2,7 +2,7 @@
 /**
  * LogPageNotFound Build Script
  *
- * Copyright 2011 Bob Ray <http://bobsguides.com>
+ * Copyright 2011-2017 Bob Ray <https://bobsguides.com>
  *
  * LogPageNotFound is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -85,7 +85,7 @@ $sources= array (
 );
 unset($root);
 
-/* Instantiate MODx -- if this require fails, check your
+/* Instantiate MODX -- if this require fails, check your
  * _build/build.config.php file
  */
 require_once $sources['build'].'build.config.php';

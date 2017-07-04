@@ -2,7 +2,7 @@
 /**
  * LogPageNotFound Plugin
  *
- * Copyright 2011-2015 Bob Ray <http://bobsguides.com>
+ * Copyright 2011-2017 Bob Ray <https://bobsguides.com>
  *
  * LogPageNotFound is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free

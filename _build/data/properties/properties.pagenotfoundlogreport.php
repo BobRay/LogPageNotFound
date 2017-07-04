@@ -2,7 +2,7 @@
 
 /**
  * Default properties for the LogFileNotFound plugin
- * @author Bob Ray <http://bobsguides.com>
+ * @author Bob Ray <https://bobsguides.com>
  * 10/31/2011
  *
  * @package logpagenotfound

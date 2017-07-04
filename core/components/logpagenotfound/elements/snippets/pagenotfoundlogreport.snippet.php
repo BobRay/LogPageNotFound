@@ -1,7 +1,7 @@
 <?php
 /**
  * PageNotFoundLogReport
- * Copyright 2011-2015 Bob Ray
+ * Copyright 2011-2017 Bob Ray
  *
  * PageNotFoundLogReport is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
@@ -17,7 +17,7 @@
  * Suite 330, Boston, MA 02111-1307 USA
  *
  * @package logpagenotfound
- * @author Bob Ray <http://bobsguides.com>
+ * @author Bob Ray <https://bobsguides.com>
 
  *
  * Description: The PageNotFoundLogReport snippet presents the contents of the Page Not Found log as a table.
