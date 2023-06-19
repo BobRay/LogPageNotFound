@@ -26,7 +26,7 @@ if (!function_exists("get_host")) {
     function get_host($ip)
     {
         $ptr = implode(".", array_reverse(explode(".", $ip))) . ".in-addr.arpa";
-        $host = @@dns_get_record($ptr, DNS_PTR);
+        $host = @dns_get_record($ptr, DNS_PTR);
         if ($host == null) {
             return $ip;
         }
@@ -58,8 +58,9 @@ if (!function_exists("logLine")) {
                 fwrite($fp, $line);
                 fclose($fp);
             }
-            return;
+
         }
+        return;
     }
 }
 /* Function courtesy of Anonymous at php.net */
@@ -69,7 +70,7 @@ if (! function_exists('get_browser_name')) {
         $t = strtolower($user_agent);
 
         // If the string *starts* with the string, strpos returns 0 (i.e., FALSE). Do a ghetto hack and start with a space.
-        // "[strpos()] may return Boolean FALSE, but may also return a non-Boolean value which evaluates to FALSE."
+        // "[strpos()] may return Boolean FALSE, but may also return a non-Boolean value, which evaluates to FALSE."
         //     http://php.net/manual/en/function.strpos.php
         $t = " " . $t;
 
@@ -128,11 +129,19 @@ if (! function_exists('get_browser_name')) {
             strpos($t, 'info') || strpos($t, 'data')) {
             return '[Bot] Other';
         }
-        return 'Other (Unknown)';
+        return 'Other (unknown)';
     }
 }
 
-
+/* Holds info to save to log */
+$data = array(
+    'page' => '',
+    'time' => '',
+    'ip' => '',
+    'host' => '',
+    'userAgent' => '',
+    'referer' => ''
+);
 /* Don't execute in Manager */
 /** @var $modx modX */
 /** @var $scriptProperties array */
@@ -161,27 +170,22 @@ if (strpos($ip, ',') !== false) {
     $ip = $ips[0];
 }
 if ($ip == '::1') {
-    $ip = 'localhost';
+    $ip = '127.0.0.1';
 }
 $data['ip'] = $ip;
-/*$data['userAgent'] = isset($_SERVER['HTTP_USER_AGENT'])
-        ? $_SERVER['HTTP_USER_AGENT']
-        : '<unknown user agent>';*/
+
 $data['userAgent'] = isset($_SERVER['HTTP_USER_AGENT'])
    ? get_browser_name($_SERVER['HTTP_USER_AGENT'])
-   : 'unknown';
+   : '(unknown)';
 
-// $data['host'] = get_host($data['ip']);
-
-$data['host'] = gethostbyaddr($data['ip']);
-
-/* Set to unknown if gethostbyaddr() returns IP, or false */
-if (($data['host'] == $data['ip']) || (!$data['host'])) {
-    $data['host'] = 'Unknown';
-}
+$data['host'] =  ($ip === '127.0.0.2')
+    ? 'localhost'
+    : $data['host'] = get_host($data['ip']);
 
 $data['referer'] = empty($_SERVER['HTTP_REFERER']) ? '(empty)' : $_SERVER['HTTP_REFERER'];
-$msg = implode('`', $data);
+
+/* Create line for log */
+$msg = implode('`', array_values($data));
 
 $maxLines  = $modx->getOption('log_max_lines',$scriptProperties, 300);
 $file = $modx->getOption('log_path', $scriptProperties, MODX_CORE_PATH . 'cache/logs/pagenotfound.log', true );
