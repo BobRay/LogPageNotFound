@@ -9,7 +9,8 @@
  */
 
 $resources = array();
-
+/** @var $modx modX */
+/** @var $sources array */
 $modx->log(modX::LOG_LEVEL_INFO,'Packaging resource: File Not Found Log Report<br />');
 $resources[1]= $modx->newObject('modResource');
 $resources[1]->fromArray(array(

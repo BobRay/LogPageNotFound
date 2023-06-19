@@ -25,7 +25,8 @@
  * @package logpagenotfound
  * @subpackage build
  */
-
+/** @var $modx modX */
+/** @var $sources array */
 if (! function_exists('getPluginContent')) {
     function getpluginContent($filename) {
         $o = file_get_contents($filename);

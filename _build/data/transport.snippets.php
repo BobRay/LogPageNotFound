@@ -25,6 +25,8 @@
  * @package logpagenotfound
  * @subpackage build
  */
+/** @var $modx modX */
+/** @var $sources array */
 
 if (! function_exists('getSnippetContent')) {
     function getSnippetContent($filename) {
