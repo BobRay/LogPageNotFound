@@ -50,14 +50,24 @@ $modx =& $object->xpdo;
 
 $pluginEvents = array('OnHandleRequest');
 $plugins = array('LogPageNotFound');
-
 $category = 'LogPageNotFound';
-
 $hasPlugins = true;
-
-
  /* set to true to connect property sets to elements */
 $connectPropertySets = false;
+
+ /* @var modTransportPackage $transport */
+
+ if ($transport) {
+     $modx =& $transport->xpdo;
+ } else {
+     $modx =& $object->xpdo;
+ }
+
+ /* Make it run in either MODX 2 or MODX 3 */
+ $prefix = $modx->getVersionData()['version'] >= 3
+   ? 'MODX\Revolution\\'
+   : '';
+
 
 /* work starts here */
 $success = true;
@@ -88,12 +98,12 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
         /* Assign plugins to System events */
 
         $plugin = 'LogPageNotFound';
-        $pluginObj = $modx->getObject('modPlugin',array('name'=>$plugin));
+        $pluginObj = $modx->getObject($prefix . 'modPlugin',array('name'=>$plugin));
             if (! $pluginObj) {
                 $modx->log(xPDO::LOG_LEVEL_INFO,'cannot get object: ' . $plugin);
             }else {
                 $modx->log(xPDO::LOG_LEVEL_INFO,'Assigning Events to Plugin ' . $plugin);
-                $intersect = $modx->newObject('modPluginEvent');
+                $intersect = $modx->newObject($prefix . 'modPluginEvent');
                 $intersect->set('event','OnPageNotFound');
                 $intersect->set('pluginid',$pluginObj->get('id'));
                 $intersect->set('priority',5);
@@ -137,12 +147,12 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
            obsolete files, settings, elements, resources, etc.
         */
 
-        $doc = $modx->getObject('modResource', array('alias' => 'page-not-found-log-report'));
+        $doc = $modx->getObject($prefix . 'modResource', array('alias' => 'page-not-found-log-report'));
         if ($doc) {
             /** @var $doc modResource */
             $template = $doc->get('template');
             if (empty($template)) {
-                $templateObj = $modx->getObject('modTemplate', array('templatename' => 'BaseTemplate'));
+                $templateObj = $modx->getObject($prefix . 'modTemplate', array('templatename' => 'BaseTemplate'));
                 if ($templateObj) {
                     $tId = $templateObj->get('id');
                 } else {
