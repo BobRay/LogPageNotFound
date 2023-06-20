@@ -178,7 +178,7 @@ $data['userAgent'] = isset($_SERVER['HTTP_USER_AGENT'])
    ? get_browser_name($_SERVER['HTTP_USER_AGENT'])
    : '(unknown)';
 
-$data['host'] =  ($ip === '127.0.0.2')
+$data['host'] =  ($ip === '127.0.0.1')
     ? 'localhost'
     : $data['host'] = get_host($data['ip']);
 
