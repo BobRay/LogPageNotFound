@@ -162,7 +162,7 @@ $page = (strpos($page, $siteUrl) === 0)
 
 $data['page'] = $page;
 $t = gettimeofday();
-$data['time'] = date('m/d/y H:i:s:');
+$data['time'] = date('m/d/y H:i:s');
 
 $ip = $_SERVER['REMOTE_ADDR'];
 if (strpos($ip, ',') !== false) {
