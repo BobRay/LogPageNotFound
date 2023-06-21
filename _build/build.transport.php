@@ -32,7 +32,7 @@
 /* Set package info be sure to set all of these */
 define('PKG_NAME','LogPageNotFound');
 define('PKG_NAME_LOWER','logpagenotfound');
-define('PKG_VERSION','1.0.5');
+define('PKG_VERSION','1.3.0');
 define('PKG_RELEASE','pl');
 define('PKG_CATEGORY','LogPageNotFound');
 
