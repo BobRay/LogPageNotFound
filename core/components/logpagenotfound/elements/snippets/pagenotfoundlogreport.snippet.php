@@ -25,43 +25,47 @@
  * /
 
 /* Modified: January, 2013 */
+/** @var $modx modX */
+/** @var $scriptProperties array */
 
+$file = $modx->getOption('log_path', $scriptProperties, MODX_CORE_PATH . 'cache/logs/pagenotfound.log', true);
+$rowTpl = '
+<tr class="lpnf_row">
+  <td class="lpnf_cell lpnf_page">[[+page]]</td>
+  <td class="lpnf_cell lpnf_time">[[+time]]</td>  
+  <td class="lpnf_cell lpnf_ip">[[+ip]]</td>
+  <td class="lpnf_cell lpnf_host">[[+host]]</td>
+  <td class="lpnf_cell lpnf_userAgent">[[+userAgent]]</td>
+  <td class="lpnf_cell lpnf_referer">[[+referer]]</td>
+</tr>';
 
-$file = MODX_CORE_PATH . '/logs/pagenotfound.log';
-$cellWidth = empty($scriptProperties['cell_width'])? 50 : $scriptProperties['cell_width'];
 if (isset($_POST['clearlog'])) {
     file_put_contents($file, "");
+    unset($_POST['clearlog']);
 }
-$tableWidth = empty($scriptProperties['table_width'])? '100%' : $scriptProperties['table_width'];
-$fp = fopen ($file, 'r');
-$output = '';
-if ($fp) {
-    $output = '<table class="PageNotFoundLog" border="1" cellpadding="10" width="' . $tableWidth . '">';
-    $output .= "\n" . '   <tr>';
-    $output .= "\n" .'      <th width="' . $cellWidth .  '">Page</th>';
-    $output .= "\n" .'      <th width="' . $cellWidth .  '">Time</th>';
-    $output .= "\n" .'      <th width="' . $cellWidth .  '">IP</th>';
-    $output .= "\n" .'      <th width="' . $cellWidth .  '">Host</th>';
-    $output .= "\n" .'      <th width="' . $cellWidth .  '">User Agent</th>';
-    $output .= "\n" .'      <th width="' . $cellWidth .  '">Referer</th>';
-    $output .= "\n" .'   </tr>';
-    while (($line = fgets($fp)) !== false) {
-        $line = trim($line);
 
-        if (strpos($line,'#' == 0) || empty($line)) continue;
-        $lineArray = explode('`',$line);
-        $output .= "\n   <tr>";
-        foreach($lineArray as $item) {
+$output = '';
+$i = 0;
+$fp = fopen($file, 'r');
+if ($fp) {
+    $columns = array('page', 'time', 'ip', 'host', 'userAgent', 'referer');
+
+    while (($row = fgetcsv($fp, 1000, "`")) !== false) {
+        $final = $rowTpl;
+        $j = 0;
+        foreach ($row as $item) {
             $item = urldecode($item);
             $item = strip_tags($item);
             $item = htmlspecialchars($item, ENT_QUOTES, 'UTF-8');
             $item = str_replace('&amp;', '&', $item);
-            $output .= "\n      " . '<td style="word-break:break-all;" width="' . $cellWidth . '">' . $item . '</td>';
-
+            $final = str_replace('[[+' . $columns[$j] . ']]', $item, $final);
+            $j++;
         }
-        $output .= "\n   </tr>";
+
+        $output .=  "\n" . $final;
+
+        $i++;
     }
-    $output .= "\n</table>";
     fclose($fp);
 } else {
     $output = 'Could not open: ' . $file;
