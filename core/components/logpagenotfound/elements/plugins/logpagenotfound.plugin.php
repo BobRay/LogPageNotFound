@@ -36,7 +36,7 @@ if (!function_exists("get_host")) {
     }
 }
 if (!function_exists("logLine")) {
-    function logLine($line, $maxLines, $file)
+    function logLine($modx, $line, $maxLines, $file)
     {
 
         if ($line) {
@@ -55,8 +55,12 @@ if (!function_exists("logLine")) {
                     $line = implode('', $log);
                     $fp = fopen($file, 'w');
                 }
-                fwrite($fp, $line);
+                if (!fwrite($fp, $line)) {
+                    $modx->log(modX::LOG_LEVEL_ERROR, '[LogPageNotFound] Could not write to log file');
+                }
                 fclose($fp);
+            } else {
+                $modx->log(modX::LOG_LEVEL_ERROR, '[LogPageNotFound] Could not open log file');
             }
 
         }
@@ -150,8 +154,6 @@ if ($modx->context->get('key') == 'mgr') {
 }
 $oldSetting = ignore_user_abort(TRUE); // otherwise can screw up logfile
 
-$modx->log(modX::LOG_LEVEL_ERROR, 'REQUEST_URI: ' . $_SERVER['REQUEST_URI']);
-$modx->log(modX::LOG_LEVEL_ERROR, 'base_url: : ' . $modx->getOption('base_url'));
 $page = $_SERVER['REQUEST_URI'];
 
 /* Remove site url prefix */
@@ -190,7 +192,7 @@ $msg = implode('`', array_values($data));
 $maxLines  = $modx->getOption('log_max_lines',$scriptProperties, 300);
 $file = $modx->getOption('log_path', $scriptProperties, MODX_CORE_PATH . 'cache/logs/pagenotfound.log', true );
 
-logLine($msg . "\n", $maxLines, $file);
+logLine($modx, $msg . "\n", $maxLines, $file);
 
 ignore_user_abort($oldSetting);
 
