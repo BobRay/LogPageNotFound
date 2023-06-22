@@ -473,7 +473,7 @@ $components = array(
     'getResourcesById' => false,
 
     'exportResources' => array(
-        'Log Page Not Found Report',
+        'Page Not Found Log Report',
     ),
     /* Array of resource parent IDs to get children of. */
     'parents' => array(),
