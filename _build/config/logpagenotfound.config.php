@@ -16,8 +16,8 @@ $components = array(
     'packageName' => 'logpagenotfound',  /* No spaces, no dashes */
     'packageNameLower' => $packageNameLower,
     'packageDescription' => 'logpagenotfound project for MyComponent extra',
-    'version' => '1.0.0',
-    'release' => 'beta1',
+    'version' => '1.3.0',
+    'release' => 'pl',
     'author' => 'Bob Ray',
     'email' => '<https://bobsguides.com>',
     'authorUrl' => 'https://bobsguides.com',
@@ -167,7 +167,7 @@ $components = array(
         ),
 
         'snippets' => array(
-            'PageNotFoundReport' => array(
+            'PageNotFoundLogReport' => array(
                 'category' => 'logpagenotfound',
                 'description' => 'Displays the report',
             ),
@@ -236,7 +236,6 @@ $components = array(
         'en' => array(
             'default',
             'properties',
-            'forms',
         ),
     ),
     /* ********************************************* */
@@ -255,12 +254,12 @@ $components = array(
 
     ),
     /* minify any JS files */
-    'minifyJS' => true,
+    'minifyJS' => false,
     /* Create a single JS file from all JS files */
-    'createJSMinAll' => true,
+    'createJSMinAll' => false,
     /* if this is false, regular jsmin will be used.
        JSMinPlus is slower but more reliable */
-    'useJSMinPlus' => true,
+    'useJSMinPlus' => false,
 
     /* These will automatically go under assets/components/yourcomponent/js/
        Format: directory:filename

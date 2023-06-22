@@ -78,7 +78,7 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
                 0 =>  array (
                   'pluginid' => 'LogPageNotFound',
                   'event' => 'OnPageNotFound',
-                  'priority' => '0',
+                  'priority' => 5,
                   'propertyset' => '0',
                 ),
             );
@@ -134,10 +134,10 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 
     case xPDOTransport::ACTION_UNINSTALL:
         foreach($newEvents as $k => $fields) {
-            /*$event = $modx->getObject($classPrefix . 'modEvent', array('name' => $fields['name']));
+            $event = $modx->getObject($classPrefix . 'modEvent', array('name' => $fields['name']));
             if ($event) {
                 $event->remove();
-            }*/
+            }
         }
         break;
 }

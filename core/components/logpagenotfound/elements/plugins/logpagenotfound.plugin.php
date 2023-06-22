@@ -197,4 +197,3 @@ logLine($modx, $msg . "\n", $maxLines, $file);
 ignore_user_abort($oldSetting);
 
 return '';
-

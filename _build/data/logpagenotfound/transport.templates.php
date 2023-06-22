@@ -28,7 +28,12 @@ $templates = array();
 $templates[1] = $modx->newObject('modTemplate');
 $templates[1]->fromArray(array (
   'id' => 1,
+  'property_preprocess' => false,
   'templatename' => 'LogPageNotFoundTemplate',
+  'description' => 'Template',
+  'icon' => '',
+  'template_type' => 0,
+  'properties' => NULL,
 ), '', true, true);
 $templates[1]->setContent(file_get_contents($sources['source_core'] . '/elements/templates/logpagenotfoundtemplate.template.html'));
 

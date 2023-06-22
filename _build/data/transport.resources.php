@@ -15,7 +15,6 @@ $modx->log(modX::LOG_LEVEL_INFO,'Packaging resource: File Not Found Log Report<b
 $resources[1]= $modx->newObject('modResource');
 $resources[1]->fromArray(array(
     'id' => 2,
-    'class_key' => 'modDocument',
     'context_key' => 'web',
     'type' => 'document',
     'contentType' => 'text/html',

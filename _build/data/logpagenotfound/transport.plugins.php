@@ -28,9 +28,16 @@ $plugins = array();
 $plugins[1] = $modx->newObject('modPlugin');
 $plugins[1]->fromArray(array (
   'id' => 1,
-  'description' => 'Adds to log when page is not found',
+  'property_preprocess' => false,
   'name' => 'LogPageNotFound',
+  'description' => 'LogPageNotFound plugin -- logs page-not-found requests',
+  'disabled' => false,
 ), '', true, true);
 $plugins[1]->setContent(file_get_contents($sources['source_core'] . '/elements/plugins/logpagenotfound.plugin.php'));
+
+
+$properties = include $sources['data'].'properties/properties.logpagenotfound.plugin.php';
+$plugins[1]->setProperties($properties);
+unset($properties);
 
 return $plugins;

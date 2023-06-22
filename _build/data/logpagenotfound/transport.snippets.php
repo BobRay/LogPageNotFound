@@ -28,9 +28,15 @@ $snippets = array();
 $snippets[1] = $modx->newObject('modSnippet');
 $snippets[1]->fromArray(array (
   'id' => 1,
-  'description' => 'Displays the report',
-  'name' => 'PageNotFoundReport',
+  'property_preprocess' => false,
+  'name' => 'PageNotFoundLogReport',
+  'description' => 'PageNotFoundLogReport snippet for LogPageNotFound.',
 ), '', true, true);
-$snippets[1]->setContent(file_get_contents($sources['source_core'] . '/elements/snippets/pagenotfoundreport.snippet.php'));
+$snippets[1]->setContent(file_get_contents($sources['source_core'] . '/elements/snippets/pagenotfoundlogreport.snippet.php'));
+
+
+$properties = include $sources['data'].'properties/properties.pagenotfoundlogreport.snippet.php';
+$snippets[1]->setProperties($properties);
+unset($properties);
 
 return $snippets;
