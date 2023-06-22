@@ -28,20 +28,20 @@
  * @subpackage build
  */
 
-/* Example Resolver script */
-
-/* The $modx object is not available here. In its place we
- * use $object->xpdo
- */
-
 /** @var $modx modX */
 /** @var  $object object */
 /** @var  $options array */
 
-$modx =& $object->xpdo;
+/** @var modTransportPackage $transport */
+
+if ($transport) {
+    $modx =& $transport->xpdo;
+} else {
+    $modx =& $object->xpdo;
+}
 
 /* Remember that the files in the _build directory are not available
- * here and we don't know the IDs of any objects, so resources,
+ * here, and we don't know the IDs of any objects, so resources,
  * elements, and other objects must be retrieved by name with
  * $modx->getObject().
  */
@@ -55,13 +55,6 @@ $hasPlugins = true;
  /* set to true to connect property sets to elements */
 $connectPropertySets = false;
 
- /* @var modTransportPackage $transport */
-
- if ($transport) {
-     $modx =& $transport->xpdo;
- } else {
-     $modx =& $object->xpdo;
- }
 
  /* Make it run in either MODX 2 or MODX 3 */
  $prefix = $modx->getVersionData()['version'] >= 3
@@ -72,7 +65,7 @@ $connectPropertySets = false;
 /* work starts here */
 $success = true;
 
-$logDir = MODX_CORE_PATH . 'logs/';
+$logDir = MODX_CORE_PATH . 'cache/logs/';
 $logFile = $logDir . 'pagenotfound.log';
 
 
@@ -95,26 +88,12 @@ $modx->log(xPDO::LOG_LEVEL_INFO,'Running PHP Resolver.');
 switch($options[xPDOTransport::PACKAGE_ACTION]) {
     /* This code will execute during an install */
     case xPDOTransport::ACTION_INSTALL:
-        /* Assign plugins to System events */
+    case xPDOTransport::ACTION_UPGRADE:
 
-        $plugin = 'LogPageNotFound';
-        $pluginObj = $modx->getObject($prefix . 'modPlugin',array('name'=>$plugin));
-            if (! $pluginObj) {
-                $modx->log(xPDO::LOG_LEVEL_INFO,'cannot get object: ' . $plugin);
-            }else {
-                $modx->log(xPDO::LOG_LEVEL_INFO,'Assigning Events to Plugin ' . $plugin);
-                $intersect = $modx->newObject($prefix . 'modPluginEvent');
-                $intersect->set('event','OnPageNotFound');
-                $intersect->set('pluginid',$pluginObj->get('id'));
-                $intersect->set('priority',5);
-                $intersect->save();
-            }
-
-              
-        /* Create log directory */
+        /* Create log directory if necessary */
 
         if (! is_dir($logDir)) {
-            if (!mkdir($logDir, 0700)) {
+            if (!mkdir($logDir, 0755)) {
                 $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to create directory: $logDir");
             } else {
                 $modx->log(xPDO::LOG_LEVEL_INFO, "Created directory: $logDir");
@@ -137,35 +116,10 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
                     $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to create file: $logFile");
                 }
                 
+            } else {
+                $modx->log(xPDO::LOG_LEVEL_INFO, $logFile . " Already exists");
             }
         }
-    
-    /* This code will execute during an upgrade */
-    case xPDOTransport::ACTION_UPGRADE:
-
-        /* put any upgrade tasks (if any) here such as removing
-           obsolete files, settings, elements, resources, etc.
-        */
-
-        $doc = $modx->getObject($prefix . 'modResource', array('alias' => 'page-not-found-log-report'));
-        if ($doc) {
-            /** @var $doc modResource */
-            $template = $doc->get('template');
-            if (empty($template)) {
-                $templateObj = $modx->getObject($prefix . 'modTemplate', array('templatename' => 'BaseTemplate'));
-                if ($templateObj) {
-                    $tId = $templateObj->get('id');
-                } else {
-                    $tId = $modx->getOption('default_template', null);
-                }
-                $doc->set('template', $tId);
-                $doc->save();
-
-            }
-        } else {
-            $modx->log(xPDO::LOG_LEVEL_INFO, 'Could not find the Log Report resource. Make sure it has a non-empty template');
-        }
-
         $success = true;
         break;
 

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>[[*pagetitle]] - [[++site_name]]</title>
+    <base href="[[!++site_url]]"/>
+    <meta charset="[[++modx_charset]]"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+    <style type="text/css">
+        body {
+            background-color: #eee;
+            font-family: sans-serif;
+            font-size: 20px;
+            line-height: 1.4em;
+            padding: 30px;
+            margin: auto;
+        }
+
+        body.loaded {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .clear_lpnf_log {
+            margin: 20px;
+            width: 80%;
+
+        }
+
+        input[type=submit] {
+            background-color: #ddd;
+            border-radius: 8px;
+            border: 2px solid black;
+            color: black;
+            font-weight: bold;
+            padding: 16px 32px;
+            text-decoration: none;
+            margin: 0 50px;
+            cursor: pointer;
+        }
+
+        .page_not_found_log {
+            width: 90%;
+            margin: 0 auto;
+
+
+            overflow: scroll;
+        }
+
+        td {
+            word-break: break-all;
+            width: auto;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding-left: 15px;
+            line-height: 1;
+            width: auto;
+        }
+
+        h1, h2, h3, h4, h5 {
+            color: #494949;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #137899;
+        }
+
+        h2 {
+            font-size: 29px;
+        }
+
+        h3 {
+            font-size: 24px;
+        }
+
+        a {
+            color: #0f7096;
+        }
+
+
+        @media (min-width: 768px) and (max-width: 991px) {
+        }
+
+        @media (max-width: 767px) {
+            body {
+                font-size: 16px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 19px;
+            }
+
+            h3 {
+                font-size: 16px;
+            }
+
+            .companys ul li {
+                display: block;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div>
+    <section>
+        <h1>[[*longtitle:default=`[[*pagetitle]]`]]</h1>
+
+        [[*content]]
+    </section>
+
+</div>
+
+
+</body>
+</html>
