@@ -30,9 +30,8 @@
 
 $_lang['lpnf_log_max_lines_desc'] = 'Maximum number of lines in log file';
 
-/* FileNotFoundLogReport Property Descriptions */
 
-$_lang['lpnf_table_width_desc'] = 'Table width for report. Default: 80%';
-$_lang['lpnf_cell_width_desc'] = 'Cell width for report. Default: 30';
+
+
 
 
