@@ -1,8 +1,8 @@
 Changelog for LogPageNotFound
 
-LogPageNotFound 1.3.0
+LogPageNotFound 1.3.1
 ---------------------
- - Moved log to core/cache directory
+ - Move log to core/cache directory (automatic)
  - Improve reporting of user agent
  - Better-looking log
  - Updates for MODX 3
