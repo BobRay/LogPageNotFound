@@ -3,7 +3,7 @@
 /**
  * LogPageNotFound resolver script - runs on install.
  *
- * Copyright 2011-2017 Bob Ray <https://bobsguides.com>
+ * Copyright 2011-2023 Bob Ray <https://bobsguides.com>
  * @author Bob Ray <https://bobsguides.com>
  * 10/12/2011
  *
