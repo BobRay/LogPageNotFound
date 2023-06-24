@@ -87,6 +87,15 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
             } else{
                 $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to copy old log {$oldLog} to {$newLog} please copy manually");
             }
+            /* Remove properties */
+            $snippet = $modx->getObject($prefix . 'modSnippet', array('name' => 'PageNotFoundLogReport'), false);
+
+            $p = $snippet->get('_properties');
+            if (!empty($p)) {
+                $snippet->setProperties('a:0:{}');
+                $snippet->save(true);
+            }
+
         }
 
     case xPDOTransport::ACTION_INSTALL:
