@@ -31,12 +31,10 @@ $snippets[1]->fromArray(array (
   'property_preprocess' => false,
   'name' => 'PageNotFoundLogReport',
   'description' => 'PageNotFoundLogReport snippet for LogPageNotFound.',
+  'properties' => 
+  array (
+  ),
 ), '', true, true);
 $snippets[1]->setContent(file_get_contents($sources['source_core'] . '/elements/snippets/pagenotfoundlogreport.snippet.php'));
-
-
-$properties = include $sources['data'].'properties/properties.pagenotfoundlogreport.snippet.php';
-$snippets[1]->setProperties($properties);
-unset($properties);
 
 return $snippets;
