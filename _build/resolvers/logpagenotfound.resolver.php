@@ -61,67 +61,60 @@ $prefix = $modx->getVersionData()['version'] >= 3
     ? 'MODX\Revolution\\'
     : '';
 
-
 /* work starts here */
 $success = true;
 
+/* if $oldLog exists, it will be copied to core/cache/logs */
+$oldLog = MODX_CORE_PATH . 'logs/pagenotfound.log';
 $logDir = MODX_CORE_PATH . 'cache/logs/';
-$logFile = $logDir . 'pagenotfound.log';
+$newLog = $logDir . 'pagenotfound.log';
 
-
-/* empty and remove directory */
-if (!function_exists("rrmdir")) {
-    function rrmdir($dir) {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (filetype($dir . "/" . $object) == "dir") {
-                        rrmdir($dir . "/" . $object);
-                    } else {
-                        unlink($dir . "/" . $object);
-                    }
-                }
-            }
-            reset($objects);
-            rmdir($dir);
-        }
-    }
-}
 $modx->log(xPDO::LOG_LEVEL_INFO, 'Running PHP Resolver.');
+
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
-    /* This code will execute during an install */
-    case xPDOTransport::ACTION_INSTALL:
+
     case xPDOTransport::ACTION_UPGRADE:
+        /* Move log file to new location */
+        if (file_exists($oldLog) && (! file_exists($newLog))) {
+            if (copy($oldLog, $newLog)) {
+                $modx->log(xPDO::LOG_LEVEL_INFO, "Moved log to {$newLog}");
+                if (unlink($oldLog)) {
+                    $modx->log(xPDO::LOG_LEVEL_INFO, "Removed old log");
+                } else {
+                    $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to remove old log at " .
+                       $oldLog);
+                }
+            } else{
+                $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to copy old log {$oldLog} to {$newLog} please copy manually");
+            }
+        }
+
+    case xPDOTransport::ACTION_INSTALL:
 
         /* Create log directory if necessary */
-
         if (!is_dir($logDir)) {
             if (!mkdir($logDir, 0755)) {
                 $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to create directory: $logDir");
             } else {
-                $modx->log(xPDO::LOG_LEVEL_INFO, "Created directory: $logDir");
-                $fp = fopen($logFile, 'w');
+                $modx->log(xPDO::LOG_LEVEL_INFO, "Created directory: {$logDir}");
+                $fp = fopen($newLog, 'w');
                 if ($fp) {
-                    $modx->log(xPDO::LOG_LEVEL_INFO, "Created file: $logFile");
+                    $modx->log(xPDO::LOG_LEVEL_INFO, "Created file: {$newLog}");
                     fclose($fp);
                 } else {
-                    $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to create file: $logFile");
+                    $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to create file: {$newLog}");
                 }
             }
         } else {
-            $modx->log(xPDO::LOG_LEVEL_INFO, $logDir . " Already exists");
-            if (!file_exists($logFile)) {
-                $fp = fopen($logFile, 'w');
+            if (!file_exists($newLog)) {
+                $fp = fopen($newLog, 'w');
                 if ($fp) {
-                    $modx->log(xPDO::LOG_LEVEL_INFO, "Created file: $logFile");
+                    $modx->log(xPDO::LOG_LEVEL_INFO, "Created file: {$newLog}");
                     fclose($fp);
                 } else {
-                    $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to create file: $logFile");
+                    $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to create file: {$newLog}");
                 }
 
-            } else {
-                $modx->log(xPDO::LOG_LEVEL_INFO, $logFile . " Already exists");
             }
         }
         $success = true;
@@ -133,7 +126,7 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 
         /* remove log file */
 
-        if (unlink($logFile)) {
+        if (unlink($newLog)) {
             $modx->log(xPDO::LOG_LEVEL_INFO, 'Removed log file');
         } else {
             $modx->log(xPDO::LOG_LEVEL_INFO, 'Failed to remove log file');
