@@ -48,7 +48,7 @@ $output = '';
 $i = 0;
 $fp = fopen($file, 'r');
 if ($fp) {
-    $columns = array('page', 'time', 'ip', 'host', 'userAgent', 'referer');
+    $columns = array('page', 'time', 'ip', 'userAgent', 'host',  'referer');
 
     while (($row = fgetcsv($fp, 1000, "`")) !== false) {
         $final = $rowTpl;
