@@ -64,67 +64,64 @@ $prefix = $modx->getVersionData()['version'] >= 3
 /* work starts here */
 $success = true;
 
-/* if $oldLog exists, it will be copied to core/cache/logs */
+/* If $oldLog exists, it will be copied to core/cache/logs */
 $oldLog = MODX_CORE_PATH . 'logs/pagenotfound.log';
-$logDir = MODX_CORE_PATH . 'cache/logs/';
-$newLog = $logDir . 'pagenotfound.log';
-
+$newLog = MODX_CORE_PATH . 'cache/logs/pagenotfound.log';
+$failedCopy = false;
 $modx->log(xPDO::LOG_LEVEL_INFO, 'Running PHP Resolver.');
 
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 
     case xPDOTransport::ACTION_UPGRADE:
-        /* Move log file to new location */
+    case xPDOTransport::ACTION_INSTALL:
+        /* Move log file to new location if there's no new log */
         if (file_exists($oldLog) && (! file_exists($newLog))) {
             if (copy($oldLog, $newLog)) {
                 $modx->log(xPDO::LOG_LEVEL_INFO, "Moved log to {$newLog}");
                 if (unlink($oldLog)) {
                     $modx->log(xPDO::LOG_LEVEL_INFO, "Removed old log");
                 } else {
-                    $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to remove old log at " .
-                       $oldLog);
+                    $modx->log(xPDO::LOG_LEVEL_ERROR,
+                        "Failed to remove old log at " .
+                        $oldLog);
                 }
-            } else{
-                $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to copy old log {$oldLog} to {$newLog} please copy manually");
+            } else {
+                $failedCopy = true;
+                $modx->log(xPDO::LOG_LEVEL_ERROR,
+                    "Failed to copy old log {$oldLog} to {$newLog} please copy manually");
             }
-            /* Remove properties */
-            $snippet = $modx->getObject($prefix . 'modSnippet', array('name' => 'PageNotFoundLogReport'), false);
-
-            $p = $snippet->get('_properties');
-            if (!empty($p)) {
-                $snippet->setProperties('a:0:{}');
-                $snippet->save(true);
+        }
+        clearstatcache();
+        /* Create new log empty if not there yet */
+        if (! file_exists($newLog)) {
+            $fp = fopen($newLog, 'w');
+            if ($fp) {
+                $modx->log(xPDO::LOG_LEVEL_INFO,
+                    "Created file: {$newLog}");
+                fclose($fp);
+            } else {
+                $modx->log(xPDO::LOG_LEVEL_ERROR,
+                    "Failed to create file: {$newLog}");
             }
+        }
+        clearstatcache();
 
+        /* If both oldLog and newLog exist, and newLog has
+           content, delete oldLog */
+        if (file_exists($newLog) && file_exists($oldLog) && (! $failedCopy)) {
+            if (filesize($newLog > 20)) {
+                unlink($oldLog);
+            }
         }
 
-    case xPDOTransport::ACTION_INSTALL:
+        /* Remove snippet properties */
+        $snippet = $modx->getObject($prefix . 'modSnippet',
+            array('name' => 'PageNotFoundLogReport'), false);
 
-        /* Create log directory if necessary */
-        if (!is_dir($logDir)) {
-            if (!mkdir($logDir, 0755)) {
-                $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to create directory: $logDir");
-            } else {
-                $modx->log(xPDO::LOG_LEVEL_INFO, "Created directory: {$logDir}");
-                $fp = fopen($newLog, 'w');
-                if ($fp) {
-                    $modx->log(xPDO::LOG_LEVEL_INFO, "Created file: {$newLog}");
-                    fclose($fp);
-                } else {
-                    $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to create file: {$newLog}");
-                }
-            }
-        } else {
-            if (!file_exists($newLog)) {
-                $fp = fopen($newLog, 'w');
-                if ($fp) {
-                    $modx->log(xPDO::LOG_LEVEL_INFO, "Created file: {$newLog}");
-                    fclose($fp);
-                } else {
-                    $modx->log(xPDO::LOG_LEVEL_ERROR, "Failed to create file: {$newLog}");
-                }
-
-            }
+        $p = $snippet->get('_properties');
+        if (!empty($p)) {
+            $snippet->setProperties('a:0:{}');
+            $snippet->save(true);
         }
         $success = true;
         break;
