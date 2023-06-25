@@ -34,8 +34,8 @@ $rowTpl = '
   <td class="lpnf_cell lpnf_page">[[+page]]</td>
   <td class="lpnf_cell lpnf_time">[[+time]]</td>  
   <td class="lpnf_cell lpnf_ip">[[+ip]]</td>
-  <td class="lpnf_cell lpnf_host">[[+host]]</td>
   <td class="lpnf_cell lpnf_userAgent">[[+userAgent]]</td>
+  <td class="lpnf_cell lpnf_host">[[+host]]</td>
   <td class="lpnf_cell lpnf_referer">[[+referer]]</td>
 </tr>';
 

@@ -142,8 +142,8 @@ $data = array(
     'page' => '',
     'time' => '',
     'ip' => '',
-    'host' => '',
     'userAgent' => '',
+    'host' => '',
     'referer' => ''
 );
 /* Don't execute in Manager */
