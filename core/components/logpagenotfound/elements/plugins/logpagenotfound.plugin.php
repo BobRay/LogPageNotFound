@@ -81,7 +81,7 @@ if (! function_exists('get_browser_name')) {
         // Humans / Regular Users
         if (strpos($t, 'opera') || strpos($t, 'opr/')) {
             return 'Opera';
-        } elseif (strpos($t, 'edge')) {
+        } elseif (strpos($t, 'edge' || strpos($t, 'edg/'))) {
             return 'Edge';
         } elseif (strpos($t, 'chrome')) {
             return 'Chrome';
