@@ -192,6 +192,10 @@ $msg = implode('`', array_values($data));
 $maxLines  = $modx->getOption('log_max_lines',$scriptProperties, 300);
 $file = $modx->getOption('log_path', $scriptProperties, MODX_CORE_PATH . 'cache/logs/pagenotfound.log', true );
 
+/* Don't record requests for apple-touch-icon or favicon */
+if ((strpos($data['page'], 'apple-touch-icon') !== false) || (strpos($data['page'], 'favicon') !== false) ) {
+    return '';
+}
 logLine($modx, $msg . "\n", $maxLines, $file);
 
 ignore_user_abort($oldSetting);

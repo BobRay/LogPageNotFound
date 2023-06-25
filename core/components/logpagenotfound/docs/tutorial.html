@@ -20,7 +20,7 @@ RewriteRule ^spform-tutorial\.html$ /spform-snippet-tutorial.html? [R=301,NE,L]
 
 <p>*Always* back up your .htaccess file before making any changes! If there is an error in the .htaccess file, all visitors to your site may get a Server 500 error.</p>
 
-<p>When examining the log, you'll also see evildoers looking for a variety of security holes trying to access files and directories that never existed. Once you know what they're looking for, you can block them in .htaccess (see below). Lately, close to half the entries were from bots looking for the <code>apple-touch-icon.png</code>  file, until I blocked them. </p>
+<p>When examining the log, you'll also see evildoers looking for a variety of security holes trying to access files and directories that never existed. Once you know what they're looking for, you can block them in .htaccess (see below).</p>
 
 <p>Note that if you have an Adsense site, every page-not-found request will be followed by one or more visits from the GoogleBot looking for the same URL. You'll also see the GoogleBot failing to find the unpublished report pages when you access them.</p>
 
@@ -30,6 +30,8 @@ RewriteRule ^spform-tutorial\.html$ /spform-snippet-tutorial.html? [R=301,NE,L]
 User-agent: Mediapartners-Google*
 Disallow: /page-not-found-log-report.html
 </fixedpre></pre>
+
+<p>Requests for <code>favicon.ico</code> and <code>apple-touch-icon</code> are not logged. If you have those icons and want to see if those requests are successful, just comment out the section toward the end of the LogPageNotFound plugin that ignores them.</p>
         
 <h3>Installing LogPageNotFound</h3>
 
