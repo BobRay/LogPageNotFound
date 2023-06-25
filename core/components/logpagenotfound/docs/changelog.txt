@@ -10,6 +10,7 @@ LogPageNotFound 1.3.1
  - Convert build to new-style MyComponent structure
  - Refactor to Log report to use Tpl, template, and fgetcsv
  - Fix time format
+ - Fix reversal of host and userAgent
 
 
 LogPageNotFound 1.0.5
