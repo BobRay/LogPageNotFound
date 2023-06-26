@@ -212,6 +212,13 @@ function get_browser_name($user_agent) {
     return '(unknown)';
 }
 
+function sanitizeServerStrings($targets) {
+    foreach ($targets as $target) {
+        $_SERVER[$target] = isset ($_SERVER[$target]) ? htmlspecialchars($_SERVER[$target], ENT_QUOTES) : null;
+    }
+
+}
+
 
 /* Holds info to save to log */
 $data = array(
@@ -222,6 +229,17 @@ $data = array(
     'host' => '',
     'referer' => ''
 );
+
+/* Sanitize server variables */
+$toSanitize = array(
+    'REQUEST_URI',
+    'HTTP_USER_AGENT',
+    'HTTP_REFERER',
+);
+sanitizeServerStrings($toSanitize);
+$pattern = '#[^0-9.,]#';
+$_SERVER['REMOTE_ADDR'] = preg_replace($pattern, '', $_SERVER['REMOTE_ADDR']);
+
 /* Don't execute in Manager */
 /** @var $modx modX */
 /** @var $scriptProperties array */
