@@ -77,7 +77,9 @@ deny from 127.0.0.3
 allow from all
 </fixedpre></pre>
 
-<p>Blocking users in the .htaccess file is extremely fast, and it stops the users dead before they even reach the site. It's not all that practical, however, since people can spoof IPs, there are zillions of evildoers out there, and the request can be from an IP that might later be assigned to a legitimate user. Be sure to note the host before adding an IP block. You don't want to block the GoogleBot or yourself. The User Agent can be helpful here, but many evildoers will fake the User Agent and pretend to be the GoogleBot.</p>
+<p>Blocking users in the .htaccess file is extremely fast, and it stops the users dead before they even reach the site. You can block people by User Agent (browser), but it's not all that practical, however, since that can be easily spoofed.</p>
+
+<p>Banning by IP is more reliable, since they can't be spoofed directly. However, the visitor may be operating through a proxy (this will be noted in the report). Not all proxy users are bad actors. Be sure to note the user agent and host before adding an IP block. You don't want to block the GoogleBot or yourself. The User Agent can be helpful here, but many evildoers will fake the User Agent and pretend to be the GoogleBot or some other innocent-looking agent.</p>
         
 <p>In many ways, it's safer to block users with redirect rules based on what they are looking for. Here are some examples:</p>
 
@@ -96,6 +98,5 @@ RewriteRule .* - [F,L]
 <p>Include the &quot;OR&quot; directive on every condition but the last, and make sure that the strings you specify are not contained in any alias on your site</p>
 
 <p>As we said above, *always* back up your .htaccess file before making any changes!</p>
-
 
 <p>&nbsp;</p>
