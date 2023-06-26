@@ -1,6 +1,6 @@
 <?php
 /**
- * templates transport file for logpagenotfound extra
+ * templates transport file for LogPageNotFound extra
  *
  * Copyright 2023 Bob Ray <https://bobsguides.com>
  * Created on 06-20-2023

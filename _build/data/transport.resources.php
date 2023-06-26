@@ -1,6 +1,6 @@
 <?php
 /**
- * resources transport file for logpagenotfound extra
+ * resources transport file for LogPageNotFound extra
  *
  * Copyright 2023 Bob Ray <https://bobsguides.com>
  * Created on 06-22-2023

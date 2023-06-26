@@ -1,6 +1,6 @@
 <?php
 /**
- * snippets transport file for logpagenotfound extra
+ * snippets transport file for LogPageNotFound extra
  *
  * Copyright 2023 Bob Ray <https://bobsguides.com>
  * Created on 06-20-2023
