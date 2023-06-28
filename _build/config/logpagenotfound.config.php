@@ -13,10 +13,10 @@ $packageNameLower = 'logpagenotfound'; /* No spaces, no dashes */
 
 $components = array(
     /* These are used to define the package and set values for placeholders */
-    'packageName' => 'logpagenotfound',  /* No spaces, no dashes */
+    'packageName' => 'LogPageNotFound',  /* No spaces, no dashes */
     'packageNameLower' => $packageNameLower,
     'packageDescription' => 'logpagenotfound project for MyComponent extra',
-    'version' => '1.3.0',
+    'version' => '1.3.1',
     'release' => 'pl',
     'author' => 'Bob Ray',
     'email' => '<https://bobsguides.com>',
