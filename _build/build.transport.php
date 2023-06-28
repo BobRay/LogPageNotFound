@@ -226,7 +226,7 @@ set_time_limit(0);
  */
 require_once dirname(dirname(__FILE__)) . '/_build/build.config.php';
 
-if ( (! isset($modx)) || (! $modx instanceof modX) ) {
+if (! isset($modx)) {
     require_once MODX_CORE_PATH . 'model/modx/modx.class.php';
     $modx = new modX();
     $modx->initialize('mgr');
@@ -244,7 +244,7 @@ if (!defined('MODX_CORE_PATH')) {
 }
 
 @include dirname(__FILE__) . '/config/current.project.php';
-
+/** @var $currentProject string */
 if (!$currentProject) {
     session_write_close();
     die('Could not get current project');
