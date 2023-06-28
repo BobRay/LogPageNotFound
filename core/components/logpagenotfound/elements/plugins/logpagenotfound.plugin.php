@@ -22,7 +22,7 @@
  */
 
 /* Adapted from StackOverflow: https://stackoverflow.com/a/15497878/ */
-function getOS($userAgent) {
+function lpnf_getOS($userAgent) {
 
     $os_platform = false;
 
@@ -63,20 +63,19 @@ function getOS($userAgent) {
 }
 
 
-function get_host($ip)
+function lpnf_get_host($ip)
 {
     $ptr = implode(".", array_reverse(explode(".", $ip))) . ".in-addr.arpa";
     $host = @dns_get_record($ptr, DNS_PTR);
     if ($host == null) {
         return $ip;
-    }
-    else {
+    } else {
         return $host[0]['target'];
     }
 }
 
 
-function logLine($modx, $line, $maxLines, $file)
+function lpnf_logLine($modx, $line, $maxLines, $file)
 {
 
     if ($line) {
@@ -108,7 +107,7 @@ function logLine($modx, $line, $maxLines, $file)
 }
 
 
-function isProxy() {
+function lpnf_isProxy() {
     $proxy = false;
     $pStrings = array(
         'HTTP_VIA',
@@ -146,7 +145,7 @@ function isProxy() {
 
 /* Function courtesy of Anonymous at php.net */
 
-function get_browser_name($user_agent) {
+function lpnf_get_browser_name($user_agent) {
     // Make case-insensitive.
     $t = strtolower($user_agent);
 
@@ -172,6 +171,8 @@ function get_browser_name($user_agent) {
         return '[Bot] Googlebot';
     } elseif (strpos($t, 'bing')) {
         return '[Bot] Bingbot';
+    } elseif (strpos($t, 'petalbot')) {
+        return '[Bot] Petalbot (Huawei)';
     } elseif (strpos($t, 'slurp')) {
         return '[Bot] Yahoo! Slurp';
     } elseif (strpos($t, 'duckduckgo')) {
@@ -216,7 +217,6 @@ function sanitizeServerStrings($targets) {
     foreach ($targets as $target) {
         $_SERVER[$target] = isset ($_SERVER[$target]) ? htmlspecialchars($_SERVER[$target], ENT_QUOTES) : null;
     }
-
 }
 
 
@@ -268,14 +268,14 @@ if (strpos($ip, ',') !== false) {
 if ($ip == '::1') {
     $ip = '127.0.0.1';
 }
-$data['ip'] = isProxy()
+$data['ip'] = lpnf_isProxy()
     ? $ip . '(Proxy)'
     : $ip;
 
 if (isset($_SERVER['HTTP_USER_AGENT'])) {
     $userAgent = $_SERVER['HTTP_USER_AGENT'];
-    $agent = get_browser_name($userAgent);
-    $os = getOS($userAgent);
+    $agent = lpnf_get_browser_name($userAgent);
+    $os = lpnf_getOS($userAgent);
     $data['userAgent'] = $agent;
     if ($os) {
         $data['userAgent'] .= ' (' . $os . ')';
@@ -286,7 +286,7 @@ if (isset($_SERVER['HTTP_USER_AGENT'])) {
 
 $data['host'] =  ($ip === '127.0.0.1')
     ? 'localhost'
-    : $data['host'] = get_host($data['ip']);
+    : $data['host'] = lpnf_get_host($data['ip']);
 
 $data['referer'] = empty($_SERVER['HTTP_REFERER']) ? '(empty)' : $_SERVER['HTTP_REFERER'];
 
@@ -296,11 +296,14 @@ $msg = implode('`', array_values($data));
 $maxLines  = $modx->getOption('log_max_lines',$scriptProperties, 300);
 $file = $modx->getOption('log_path', $scriptProperties, MODX_CORE_PATH . 'cache/logs/pagenotfound.log', true );
 
-/* Don't record requests for apple-touch-icon or favicon */
-if ((strpos($data['page'], 'apple-touch-icon') !== false) || (strpos($data['page'], 'favicon') !== false) ) {
-    return '';
+/* Don't record requests for apple-touch-icon, favicon, or blog search requests */
+if (!
+    (strpos($data['page'], 'apple-touch-icon') !== false)
+    || (strpos($data['page'], 'favicon') !== false)
+    || (strpos($data['page'], 'blog.html') !== false) ) {
+
+        lpnf_logLine($modx, $msg . "\n", $maxLines, $file);
 }
-logLine($modx, $msg . "\n", $maxLines, $file);
 
 ignore_user_abort($oldSetting);
 
