@@ -297,10 +297,10 @@ $maxLines  = $modx->getOption('log_max_lines',$scriptProperties, 300);
 $file = $modx->getOption('log_path', $scriptProperties, MODX_CORE_PATH . 'cache/logs/pagenotfound.log', true );
 
 /* Don't record requests for apple-touch-icon, favicon, or blog search requests */
-if (!
-    (strpos($data['page'], 'apple-touch-icon') !== false)
-    || (strpos($data['page'], 'favicon') !== false)
-    || (strpos($data['page'], 'blog.html') !== false) ) {
+if (
+    (strpos($data['page'], 'apple-touch-icon') === false)
+    && (strpos($data['page'], 'favicon') === false)
+    && (strpos($data['page'], 'blog.html') === false))  {
 
         lpnf_logLine($modx, $msg . "\n", $maxLines, $file);
 }
